@@ -5,22 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="450" Closing="Window_Closing" Closed="Window_Closed">
-    <Grid>
+        Title="MainWindow" Height="350" Width="450" ResizeMode="CanMinimize">
+    <Window.Background>
+        <ImageBrush ImageSource="/istockphoto-1276735645-612x612.jpg"/>
+    </Window.Background>
+    <Grid Height="334" VerticalAlignment="Center" HorizontalAlignment="Left" Width="450">
         <Label Content="Name: " Margin="161,150,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="48"/>
-        <Label Content="Address: " Margin="161,176,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="56"/>
+        <Label Content="Address: " Margin="162,176,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="56"/>
         <Label Content="Phone Number: " Margin="162,202,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95"/>
         <Label Content="Email Address:" Margin="162,228,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="94"/>
-        <TextBox x:Name="TbName" HorizontalAlignment="Left" Margin="214,154,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="201" TextChanged="TextBox_TextChanged"/>
-        <TextBox x:Name="TbAddress" HorizontalAlignment="Left" Margin="222,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193"/>
-        <TextBox x:Name="TbNumber" HorizontalAlignment="Left" Margin="262,206,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153"/>
-        <TextBox x:Name="TbEmail" HorizontalAlignment="Left" Margin="256,232,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159"/>
-        <Label Content="Address Book" HorizontalAlignment="Center" Margin="0,31,0,0" VerticalAlignment="Top" FontSize="48"/>
+        <TextBox x:Name="TbName" HorizontalAlignment="Left" Margin="214,154,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="201" TextChanged="TextBox_TextChanged" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="TbAddress" HorizontalAlignment="Left" Margin="222,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="TbNumber" HorizontalAlignment="Left" Margin="262,206,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="TbEmail" HorizontalAlignment="Left" Margin="256,232,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159" Grid.ColumnSpan="2"/>
+        <Label Content="Address Book" HorizontalAlignment="Left" Margin="65,31,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Grid.ColumnSpan="2"/>
         <Button Content="Add" HorizontalAlignment="Left" Margin="326,265,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="Update" HorizontalAlignment="Left" Margin="363,265,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <TextBox HorizontalAlignment="Left" Margin="31,119,0,0" TextWrapping="Wrap" Text="Search" VerticalAlignment="Top" Width="384"/>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="31,146,293,59"/>
+        <Button Content="Update" HorizontalAlignment="Left" Margin="363,265,0,0" VerticalAlignment="Top" Click="Button_Click" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="TbSearch" HorizontalAlignment="Left" Margin="84,119,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="331" TextChanged="TextBox_TextChanged_1" Grid.ColumnSpan="2"/>
+        <ListBox x:Name="LbContacts" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="31,146,294,59"/>
         <Button Content="Delete" HorizontalAlignment="Left" Margin="276,265,0,0" VerticalAlignment="Top" Click="btnDelete_Click" RenderTransformOrigin="-0.271,0.603"/>
+        <Label Content="Search:" Margin="31,115,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="48"/>
 
     </Grid>
 </Window>

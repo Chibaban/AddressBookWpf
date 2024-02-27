@@ -27,6 +27,7 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+
             using (StreamReader sr = new StreamReader("Stored.csv"))
             {
                 string line = "";
@@ -34,7 +35,7 @@ namespace WpfApp1
                 {
                     Db.Add(line.Split(','));
                 }
-            }    
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -67,18 +68,6 @@ namespace WpfApp1
             TbAddress.Text = "";
             TbNumber.Text = "";
             TbEmail.Text = "";
-
-
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            MessageBox.Show("IM CLOSING THE WINDOW");
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            MessageBox.Show($"GOODBYE {user}");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -102,6 +91,11 @@ namespace WpfApp1
                     sw.WriteLine();
                 }
             }
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
