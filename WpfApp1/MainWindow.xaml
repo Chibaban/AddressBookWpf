@@ -1,0 +1,26 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="450" Closing="Window_Closing" Closed="Window_Closed">
+    <Grid>
+        <Label Content="Name: " Margin="161,150,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="48"/>
+        <Label Content="Address: " Margin="161,176,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="56"/>
+        <Label Content="Phone Number: " Margin="162,202,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95"/>
+        <Label Content="Email Address:" Margin="162,228,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="94"/>
+        <TextBox x:Name="TbName" HorizontalAlignment="Left" Margin="214,154,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="201" TextChanged="TextBox_TextChanged"/>
+        <TextBox x:Name="TbAddress" HorizontalAlignment="Left" Margin="222,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193"/>
+        <TextBox x:Name="TbNumber" HorizontalAlignment="Left" Margin="262,206,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153"/>
+        <TextBox x:Name="TbEmail" HorizontalAlignment="Left" Margin="256,232,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159"/>
+        <Label Content="Address Book" HorizontalAlignment="Center" Margin="0,31,0,0" VerticalAlignment="Top" FontSize="48"/>
+        <Button Content="Add" HorizontalAlignment="Left" Margin="326,265,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Update" HorizontalAlignment="Left" Margin="363,265,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="31,119,0,0" TextWrapping="Wrap" Text="Search" VerticalAlignment="Top" Width="384"/>
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="31,146,293,59"/>
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="276,265,0,0" VerticalAlignment="Top" Click="btnDelete_Click" RenderTransformOrigin="-0.271,0.603"/>
+
+    </Grid>
+</Window>
