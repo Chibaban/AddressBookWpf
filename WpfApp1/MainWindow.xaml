@@ -20,9 +20,9 @@
         <TextBox x:Name="TbEmail" HorizontalAlignment="Left" Margin="256,232,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159" Grid.ColumnSpan="2"/>
         <Label Content="Address Book" HorizontalAlignment="Left" Margin="65,31,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Grid.ColumnSpan="2"/>
         <Button Content="Add" HorizontalAlignment="Left" Margin="326,265,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="Update" HorizontalAlignment="Left" Margin="363,265,0,0" VerticalAlignment="Top" Click="Button_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="363,265,0,0" VerticalAlignment="Top" Click="Update_Click" Grid.ColumnSpan="2"/>
         <TextBox x:Name="TbSearch" HorizontalAlignment="Left" Margin="84,119,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="331" TextChanged="TextBox_TextChanged_1" Grid.ColumnSpan="2"/>
-        <ListBox x:Name="LbContacts" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="31,146,294,59"/>
+        <ListBox x:Name="LbContacts" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="31,146,294,59" SelectionChanged="LbContacts_SelectionChanged"/>
         <Button Content="Delete" HorizontalAlignment="Left" Margin="276,265,0,0" VerticalAlignment="Top" Click="btnDelete_Click" RenderTransformOrigin="-0.271,0.603"/>
         <Label Content="Search:" Margin="31,115,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="48"/>
 

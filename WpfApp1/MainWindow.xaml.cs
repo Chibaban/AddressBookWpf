@@ -36,6 +36,14 @@ namespace WpfApp1
                     Db.Add(line.Split(','));
                 }
             }
+
+            for (int x = 0; x < Db.Count; x++)
+            {
+                ListViewItem lvi = new ListViewItem();
+                lvi.Tag = x;
+                lvi.Content = Db[x][0];
+                LbContacts.Items.Add(lvi);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -63,6 +71,15 @@ namespace WpfApp1
                     sw.WriteLine();
                 }
             }
+
+            
+
+                ListViewItem lvi = new ListViewItem();
+                lvi.Tag = Db.Count() - 1;
+                lvi.Content = Db[(int)lvi.Tag][0];
+                LbContacts.Items.Add(lvi);
+            
+            LbContacts.Items.Refresh();
 
             TbName.Text = "";
             TbAddress.Text = "";
@@ -96,6 +113,35 @@ namespace WpfApp1
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void LbContacts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListViewItem lvi = (ListViewItem)LbContacts.SelectedItem;
+
+            TbName.Text = Db[(int)lvi.Tag][0];
+            TbAddress.Text = Db[(int)lvi.Tag][1];
+            TbNumber.Text = Db[(int)lvi.Tag][2];
+            TbEmail.Text = Db[(int)lvi.Tag][3];
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            if (LbContacts.SelectedIndex > -1)
+            {
+                ListViewItem lvi = (ListViewItem)LbContacts.SelectedItems;
+                Db[(int)lvi.Tag][0] = TbName.Text;
+                Db[(int)lvi.Tag][1] = TbAddress.Text;
+                Db[(int)lvi.Tag][2] = TbNumber.Text;
+                Db[(int)lvi.Tag][3] = TbEmail.Text;
+            }
+
+            LbContacts.Items.Refresh();
+
+            TbName.Text = "";
+            TbAddress.Text = "";
+            TbNumber.Text = "";
+            TbEmail.Text = "";
         }
     }
 }
