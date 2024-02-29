@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -21,27 +24,47 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        string user = "";
         List<string[]> Db = new List<string[]>();
 
         public MainWindow()
         {
             InitializeComponent();
+            LoadData();
+            UpdateListView();
+        }
 
-            using (StreamReader sr = new StreamReader("Stored.csv"))
+        private void LoadData()
+        {
+            try
             {
-                string line = "";
-                while ((line = sr.ReadLine()) != null)
+                using (StreamReader sr = new StreamReader("Stored.csv"))
                 {
-                    Db.Add(line.Split(','));
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        Db.Add(line.Split(','));
+                    }
                 }
             }
+            catch (FileNotFoundException)
+            {
+                // Handle file not found error
+                MessageBox.Show("Data file not found.");
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+        }
 
-            for (int x = 0; x < Db.Count; x++)
+        private void UpdateListView()
+        {
+            LbContacts.Items.Clear();
+            foreach (string[] entry in Db)
             {
                 ListViewItem lvi = new ListViewItem();
-                lvi.Tag = x;
-                lvi.Content = Db[x][0];
+                lvi.Content = entry[0];
                 LbContacts.Items.Add(lvi);
             }
         }
@@ -55,31 +78,8 @@ namespace WpfApp1
             add[3] = TbEmail.Text;
 
             Db.Add(add);
-
-            using (StreamWriter sw = new StreamWriter("Stored.csv"))
-            {
-                foreach (string[] entry in Db)
-                {
-                    for (int y = 0; y < entry.Length; y++)
-                    {
-                        sw.Write(entry[y]);
-                        if (y < entry.Length - 1)
-                        {
-                            sw.Write(",");
-                        }
-                    }
-                    sw.WriteLine();
-                }
-            }
-
-            
-
-                ListViewItem lvi = new ListViewItem();
-                lvi.Tag = Db.Count() - 1;
-                lvi.Content = Db[(int)lvi.Tag][0];
-                LbContacts.Items.Add(lvi);
-            
-            LbContacts.Items.Refresh();
+            SaveData();
+            UpdateListView();
 
             TbName.Text = "";
             TbAddress.Text = "";
@@ -87,61 +87,102 @@ namespace WpfApp1
             TbEmail.Text = "";
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void SaveData()
         {
-        }
-
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            using (StreamWriter sw = new StreamWriter("Stored.csv"))
+            try
             {
-                foreach (string[] entry in Db)
+                using (StreamWriter sw = new StreamWriter("Stored.csv"))
                 {
-                    for (int y = 0; y < entry.Length; y++)
+                    foreach (string[] entry in Db)
                     {
-                        sw.Write(entry[y]);
-                        if (y < entry.Length - 1)
-                        {
-                            sw.Write(",");
-                        }
+                        sw.WriteLine(string.Join(",", entry));
                     }
-                    sw.WriteLine();
                 }
             }
-        }
-
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while saving data: " + ex.Message);
+            }
         }
 
         private void LbContacts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListViewItem lvi = (ListViewItem)LbContacts.SelectedItem;
-
-            TbName.Text = Db[(int)lvi.Tag][0];
-            TbAddress.Text = Db[(int)lvi.Tag][1];
-            TbNumber.Text = Db[(int)lvi.Tag][2];
-            TbEmail.Text = Db[(int)lvi.Tag][3];
+            if (LbContacts.SelectedIndex >= 0 && LbContacts.SelectedIndex < Db.Count)
+            {
+                string selectedItem = LbContacts.SelectedItem.ToString();
+                for (int x = 0; x < Db.Count; x++)
+                {
+                    if (Db[x][0] == selectedItem)
+                    {
+                        TbName.Text = Db[x][0];
+                        TbAddress.Text = Db[x][1];
+                        TbNumber.Text = Db[x][2];
+                        TbEmail.Text = Db[x][3];
+                        break; // Exit the loop once the item is found
+                    }
+                }
+            }
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            if (LbContacts.SelectedIndex > -1)
+            if (LbContacts.SelectedIndex >= 0 && LbContacts.SelectedIndex < Db.Count)
             {
-                ListViewItem lvi = (ListViewItem)LbContacts.SelectedItems;
-                Db[(int)lvi.Tag][0] = TbName.Text;
-                Db[(int)lvi.Tag][1] = TbAddress.Text;
-                Db[(int)lvi.Tag][2] = TbNumber.Text;
-                Db[(int)lvi.Tag][3] = TbEmail.Text;
+                string[] selectedEntry = Db[LbContacts.SelectedIndex];
+                selectedEntry[0] = TbName.Text;
+                selectedEntry[1] = TbAddress.Text;
+                selectedEntry[2] = TbNumber.Text;
+                selectedEntry[3] = TbEmail.Text;
+                SaveData();
+                UpdateListView();
+
+                TbName.Text = "";
+                TbAddress.Text = "";
+                TbNumber.Text = "";
+                TbEmail.Text = "";
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (LbContacts.SelectedIndex >= 0 && LbContacts.SelectedIndex < Db.Count)
+            {
+                Db.RemoveAt(LbContacts.SelectedIndex);
+                SaveData();
+                UpdateListView();
+
+                TbName.Text = "";
+                TbAddress.Text = "";
+                TbNumber.Text = "";
+                TbEmail.Text = "";
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+            string searchText = TbSearch.Text.ToLower();
+
+            List<string[]> filteredContacts = new List<string[]>();
+
+            foreach (string[] contact in Db)
+            {
+                if (contact[0].ToLower().Contains(searchText))
+                {
+                    filteredContacts.Add(contact);
+                }
             }
 
-            LbContacts.Items.Refresh();
+            LbContacts.Items.Clear(); // Clear existing items
 
-            TbName.Text = "";
-            TbAddress.Text = "";
-            TbNumber.Text = "";
-            TbEmail.Text = "";
+            foreach (string[] contact in filteredContacts)
+            {
+                LbContacts.Items.Add(contact[0]); // Add matching contact name to ListBox
+            }
         }
     }
 }
